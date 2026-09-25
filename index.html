@@ -1,0 +1,1054 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+name="viewport"
+content="width=device-width,initial-scale=1.0">
+
+<title>Y UT BKRONG SHOP - ADMIN</title>
+
+<style>
+
+*{
+box-sizing:border-box;
+margin:0;
+padding:0;
+}
+
+body{
+font-family:Arial,sans-serif;
+background:#080b12;
+color:#fff;
+}
+
+.container{
+max-width:1100px;
+margin:auto;
+padding:20px 15px;
+}
+
+.card{
+background:#141b24;
+border:1px solid #293440;
+border-radius:16px;
+padding:18px;
+margin-bottom:15px;
+}
+
+h1{
+margin-bottom:8px;
+}
+
+h2{
+margin-bottom:15px;
+}
+
+.muted{
+color:#9ca8b5;
+}
+
+input,textarea,select{
+
+width:100%;
+
+padding:12px;
+
+margin:6px 0;
+
+background:#0b0f17;
+
+border:1px solid #344052;
+
+border-radius:10px;
+
+color:white;
+
+}
+
+textarea{
+min-height:100px;
+resize:vertical;
+}
+
+button{
+
+padding:11px 15px;
+
+border:0;
+
+border-radius:10px;
+
+background:#6d4aff;
+
+color:#fff;
+
+font-weight:bold;
+
+cursor:pointer;
+
+margin:4px;
+
+}
+
+button.danger{
+background:#dc3545;
+}
+
+button.secondary{
+background:#273142;
+}
+
+.login{
+max-width:420px;
+margin:80px auto;
+}
+
+#adminPanel{
+display:none;
+}
+
+.stats{
+
+display:grid;
+
+grid-template-columns:
+repeat(auto-fit,minmax(180px,1fr));
+
+gap:15px;
+
+margin-bottom:20px;
+
+}
+
+.stat{
+
+background:#141b24;
+
+border:1px solid #293440;
+
+border-radius:15px;
+
+padding:20px;
+
+}
+
+.stat-number{
+
+font-size:28px;
+
+font-weight:bold;
+
+color:#a78bfa;
+
+margin-top:7px;
+
+}
+
+.order{
+
+border:1px solid #293440;
+
+background:#0d1420;
+
+border-radius:12px;
+
+padding:15px;
+
+margin-bottom:10px;
+
+}
+
+.order-actions{
+
+margin-top:10px;
+
+display:flex;
+
+gap:6px;
+
+flex-wrap:wrap;
+
+}
+
+.product{
+
+display:flex;
+
+justify-content:space-between;
+
+align-items:center;
+
+gap:10px;
+
+padding:12px 0;
+
+border-bottom:1px solid #293440;
+
+}
+
+.badge{
+
+display:inline-block;
+
+padding:5px 9px;
+
+border-radius:20px;
+
+font-size:12px;
+
+background:#243044;
+
+}
+
+.badge.success{
+
+background:#164c35;
+
+color:#7ff0ad;
+
+}
+
+.badge.waiting{
+
+background:#5a4310;
+
+color:#ffd66b;
+
+}
+
+.topbar{
+
+display:flex;
+
+justify-content:space-between;
+
+align-items:center;
+
+gap:10px;
+
+flex-wrap:wrap;
+
+margin-bottom:20px;
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+
+<div id="loginPage">
+
+<div class="card login">
+
+<h1>🔐 ADMIN</h1>
+
+<p class="muted">
+Y UT BKRONG SHOP
+</p>
+
+<br>
+
+<input
+id="adminUsername"
+placeholder="Tài khoản admin">
+
+<input
+id="adminPassword"
+type="password"
+placeholder="Mật khẩu admin">
+
+<button
+style="width:100%"
+onclick="adminLogin()">
+
+Đăng nhập Admin
+
+</button>
+
+</div>
+
+</div>
+
+
+<div id="adminPanel">
+
+<div class="container">
+
+<div class="topbar">
+
+<div>
+
+<h1>
+Y UT BKRONG SHOP
+</h1>
+
+<p class="muted">
+Trang quản trị
+</p>
+
+</div>
+
+<button
+class="danger"
+onclick="adminLogout()">
+
+Đăng xuất
+
+</button>
+
+</div>
+
+
+<div class="stats">
+
+<div class="stat">
+
+Khách hàng
+
+<div
+id="customerCount"
+class="stat-number">
+
+0
+
+</div>
+
+</div>
+
+
+<div class="stat">
+
+Đơn hàng
+
+<div
+id="orderCount"
+class="stat-number">
+
+0
+
+</div>
+
+</div>
+
+
+<div class="stat">
+
+Sản phẩm
+
+<div
+id="productCount"
+class="stat-number">
+
+0
+
+</div>
+
+</div>
+
+</div>
+
+
+<!-- SẢN PHẨM -->
+
+<div class="card">
+
+<h2>
+📦 Quản lý sản phẩm
+</h2>
+
+<input
+id="productName"
+placeholder="Tên sản phẩm">
+
+<input
+id="productPrice"
+type="number"
+placeholder="Giá sản phẩm">
+
+<textarea
+id="productDescription"
+placeholder="Mô tả sản phẩm">
+</textarea>
+
+<button onclick="addProduct()">
+
++ Thêm sản phẩm
+
+</button>
+
+<div
+id="productList"
+style="margin-top:15px">
+
+</div>
+
+</div>
+
+
+<!-- KHÁCH HÀNG -->
+
+<div class="card">
+
+<h2>
+👥 Khách hàng
+</h2>
+
+<div id="customerList">
+
+</div>
+
+</div>
+
+
+<!-- ĐƠN HÀNG -->
+
+<div class="card">
+
+<h2>
+📋 Đơn hàng
+</h2>
+
+<div id="orderList">
+
+</div>
+
+</div>
+
+
+<!-- GIAO HÀNG -->
+
+<div class="card">
+
+<h2>
+📤 Giao nội dung cho khách
+</h2>
+
+<p class="muted">
+
+Phần này là giao diện mẫu.
+Khi nối server thật, admin có thể gửi
+văn bản và file cho khách theo từng đơn.
+
+</p>
+
+<input
+id="deliveryOrder"
+placeholder="Mã đơn hàng">
+
+<textarea
+id="deliveryText"
+placeholder="Nội dung gửi khách">
+</textarea>
+
+<input
+id="deliveryFile"
+type="file">
+
+<button onclick="sendDelivery()">
+
+Gửi nội dung
+
+</button>
+
+</div>
+
+
+</div>
+
+</div>
+
+
+<script>
+
+
+const USERS_KEY="yut_users";
+
+const ADMIN_KEY="yut_admin";
+
+const PRODUCTS_KEY="yut_products";
+
+const ORDERS_KEY="yut_orders";
+
+
+function getUsers(){
+
+return JSON.parse(
+localStorage.getItem(USERS_KEY)||"{}"
+);
+
+}
+
+
+function saveUsers(users){
+
+localStorage.setItem(
+USERS_KEY,
+JSON.stringify(users)
+);
+
+}
+
+
+function getProducts(){
+
+return JSON.parse(
+localStorage.getItem(PRODUCTS_KEY)||"[]"
+);
+
+}
+
+
+function saveProducts(products){
+
+localStorage.setItem(
+PRODUCTS_KEY,
+JSON.stringify(products)
+);
+
+}
+
+
+function getOrders(){
+
+return JSON.parse(
+localStorage.getItem(ORDERS_KEY)||"[]"
+);
+
+}
+
+
+function saveOrders(orders){
+
+localStorage.setItem(
+ORDERS_KEY,
+JSON.stringify(orders)
+);
+
+}
+
+
+function money(number){
+
+return Number(number)
+.toLocaleString("vi-VN")+"đ";
+
+}
+
+
+/*
+TÀI KHOẢN ADMIN DEMO
+
+Username:
+admin
+
+Password:
+123456
+
+Khi chạy server thật,
+KHÔNG nên để mật khẩu admin
+trong HTML.
+*/
+
+
+function adminLogin(){
+
+const username=
+document.getElementById("adminUsername").value;
+
+const password=
+document.getElementById("adminPassword").value;
+
+
+if(
+username==="admin" &&
+password==="123456"
+){
+
+sessionStorage.setItem(
+ADMIN_KEY,
+"1"
+);
+
+showAdmin();
+
+}else{
+
+alert(
+"Sai tài khoản hoặc mật khẩu admin."
+);
+
+}
+
+}
+
+
+function showAdmin(){
+
+document.getElementById("loginPage")
+.style.display="none";
+
+document.getElementById("adminPanel")
+.style.display="block";
+
+renderAll();
+
+}
+
+
+function adminLogout(){
+
+sessionStorage.removeItem(ADMIN_KEY);
+
+location.reload();
+
+}
+
+
+/* SẢN PHẨM */
+
+function addProduct(){
+
+const name=
+document.getElementById("productName")
+.value.trim();
+
+const price=
+Number(
+document.getElementById("productPrice")
+.value
+);
+
+const description=
+document.getElementById("productDescription")
+.value.trim();
+
+
+if(!name||price<=0){
+
+alert(
+"Vui lòng nhập tên và giá."
+);
+
+return;
+
+}
+
+
+const products=getProducts();
+
+
+products.push({
+
+id:"P"+Date.now(),
+
+name:name,
+
+price:price,
+
+description:description
+
+});
+
+
+saveProducts(products);
+
+
+document.getElementById("productName")
+.value="";
+
+document.getElementById("productPrice")
+.value="";
+
+document.getElementById("productDescription")
+.value="";
+
+
+renderAll();
+
+}
+
+
+function deleteProduct(id){
+
+if(!confirm(
+"Xóa sản phẩm này?"
+)) return;
+
+
+const products=
+getProducts()
+.filter(p=>p.id!==id);
+
+
+saveProducts(products);
+
+renderAll();
+
+}
+
+
+/* KHÁCH HÀNG */
+
+function renderCustomers(){
+
+const users=getUsers();
+
+const list=
+document.getElementById("customerList");
+
+
+const names=
+Object.keys(users);
+
+
+document.getElementById("customerCount")
+.textContent=names.length;
+
+
+if(!names.length){
+
+list.innerHTML=
+"<p class='muted'>Chưa có khách hàng.</p>";
+
+return;
+
+}
+
+
+list.innerHTML=
+names.map(username=>{
+
+const user=users[username];
+
+return `
+
+<div class="product">
+
+<div>
+
+<strong>
+${escapeHTML(user.username)}
+</strong>
+
+<br>
+
+<span class="muted">
+Số dư: ${money(user.balance||0)}
+</span>
+
+</div>
+
+<span class="badge">
+Khách hàng
+</span>
+
+</div>
+
+`;
+
+}).join("");
+
+}
+
+
+/* SẢN PHẨM HIỂN THỊ */
+
+function renderProducts(){
+
+const products=getProducts();
+
+const list=
+document.getElementById("productList");
+
+
+document.getElementById("productCount")
+.textContent=products.length;
+
+
+if(!products.length){
+
+list.innerHTML=
+"<p class='muted'>Chưa có sản phẩm.</p>";
+
+return;
+
+}
+
+
+list.innerHTML=
+products.map(product=>`
+
+<div class="product">
+
+<div>
+
+<strong>
+${escapeHTML(product.name)}
+</strong>
+
+<br>
+
+<span class="muted">
+
+${money(product.price)}
+
+</span>
+
+<br>
+
+<small class="muted">
+
+${escapeHTML(product.description||"")}
+
+</small>
+
+</div>
+
+<button
+class="danger"
+onclick="deleteProduct('${product.id}')">
+
+Xóa
+
+</button>
+
+</div>
+
+`).join("");
+
+}
+
+
+/* ĐƠN HÀNG */
+
+function renderOrders(){
+
+const orders=getOrders();
+
+const list=
+document.getElementById("orderList");
+
+
+document.getElementById("orderCount")
+.textContent=orders.length;
+
+
+if(!orders.length){
+
+list.innerHTML=
+"<p class='muted'>Chưa có đơn hàng.</p>";
+
+return;
+
+}
+
+
+list.innerHTML=
+orders.map(order=>`
+
+<div class="order">
+
+<strong>
+Mã đơn: ${escapeHTML(order.id)}
+</strong>
+
+<br>
+
+Khách:
+${escapeHTML(order.username)}
+
+<br>
+
+Sản phẩm:
+${escapeHTML(order.product)}
+
+<br>
+
+Giá:
+${money(order.price)}
+
+<br>
+
+Trạng thái:
+
+<span class="badge ${
+order.status==="Đã giao"
+?"success":"waiting"
+}">
+
+${escapeHTML(order.status)}
+
+</span>
+
+
+<div class="order-actions">
+
+<button
+onclick="markDelivered('${order.id}')">
+
+Đã giao
+
+</button>
+
+<button
+class="secondary"
+onclick="viewOrder('${order.id}')">
+
+Chi tiết
+
+</button>
+
+</div>
+
+</div>
+
+`).join("");
+
+}
+
+
+function markDelivered(id){
+
+const orders=getOrders();
+
+const order=
+orders.find(x=>x.id===id);
+
+
+if(!order) return;
+
+
+order.status="Đã giao";
+
+saveOrders(orders);
+
+renderOrders();
+
+}
+
+
+function viewOrder(id){
+
+const order=
+getOrders().find(x=>x.id===id);
+
+
+if(!order) return;
+
+
+alert(
+
+"Mã đơn: "+order.id+
+"\nKhách: "+order.username+
+"\nSản phẩm: "+order.product+
+"\nGiá: "+money(order.price)+
+"\nTrạng thái: "+order.status
+
+);
+
+}
+
+
+/* GIAO NỘI DUNG */
+
+function sendDelivery(){
+
+const order=
+document.getElementById("deliveryOrder")
+.value.trim();
+
+const text=
+document.getElementById("deliveryText")
+.value.trim();
+
+const file=
+document.getElementById("deliveryFile")
+.files[0];
+
+
+if(!order){
+
+alert(
+"Nhập mã đơn hàng."
+);
+
+return;
+
+}
+
+
+if(!text&&!file){
+
+alert(
+"Hãy nhập nội dung hoặc chọn file."
+);
+
+return;
+
+}
+
+
+alert(
+"Giao nội dung thành công (DEMO).\n\n"+
+"Đơn hàng: "+order+
+"\nNội dung: "+
+(text||"Không có văn bản")+
+"\nFile: "+
+(file?file.name:"Không có file")+
+"\n\nMuốn khách nhận được file thật trên nhiều thiết bị, cần nối phần này với server.js + database."
+);
+
+}
+
+
+/* CHỐNG HTML CƠ BẢN */
+
+function escapeHTML(text){
+
+return String(text)
+
+.replaceAll("&","&amp;")
+
+.replaceAll("<","&lt;")
+
+.replaceAll(">","&gt;")
+
+.replaceAll('"',"&quot;")
+
+.replaceAll("'","&#039;");
+
+}
+
+
+/* KHỞI ĐỘNG */
+
+function renderAll(){
+
+renderProducts();
+
+renderCustomers();
+
+renderOrders();
+
+}
+
+
+if(
+sessionStorage.getItem(ADMIN_KEY)==="1"
+){
+
+showAdmin();
+
+}
+
+</script>
+
+</body>
+</html>
